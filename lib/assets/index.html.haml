@@ -1,4 +1,6 @@
 :coffeescript
-  pixelEditor = new Pixie.Editor.Pixel.Views.Editor()
+  editorOptions = {}
 
-  pixelEditor.el.appendTo($('body'))
+  pixelEditor = Pixie.Editor.Pixel.create(editorOptions)
+
+  pixelEditor.appendTo($('body'))
