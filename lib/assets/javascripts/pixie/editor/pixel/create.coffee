@@ -236,7 +236,8 @@
           titleText += " (#{action.hotkeys}) "
 
           $.each action.hotkeys, (i, hotkey) ->
-            #TODO Add action hokey json data
+            #TODO Add action hotkey json data
+            console.log hotkey
 
             $(document).bind 'keydown', hotkey, (e) ->
               if currentComponent == self

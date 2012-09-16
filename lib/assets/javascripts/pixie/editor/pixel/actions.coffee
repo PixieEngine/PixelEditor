@@ -1,154 +1,139 @@
 # Default actions for the pixel editor
+namespace "Pixie.Editor.Pixel", (Pixel) ->
+  Pixel.actions = (($) ->
+    return actions =
+      guides:
+        hotkeys: ['g']
+        menu: false
+        perform: (canvas) ->
+          canvas.toggleGuides()
+        undoable: false
+      undo:
+        hotkeys: ['ctrl+z', 'meta+z']
+        perform: (canvas) ->
+          canvas.undo()
+        undoable: false
+      redo:
+        hotkeys: ["ctrl+y", "meta+z"]
+        perform: (canvas) ->
+          canvas.redo()
+        undoable: false
+      clear:
+        perform: (canvas) ->
+          canvas.clear()
+      preview:
+        menu: false
+        perform: (canvas) ->
+          canvas.preview()
+        undoable: false
+      opacify:
+        hotkeys: ["+", "="]
+        menu: false
+        perform: (canvas) ->
+          canvas.opacity(canvas.opacity() + 0.1)
+        undoable: false
+      transparentize:
+        hotkeys: ["-"]
+        menu: false
+        perform: (canvas) ->
+          canvas.opacity(canvas.opacity() - 0.1)
+        undoable: false
+      left:
+        hotkeys: ["left"]
+        menu: false
+        perform: (canvas) ->
+          deferredColors = []
 
-# Old school namespacing. Stuck with it until Sprockets supports exports
-window.Pixie ||= {}
-Pixie.Editor ||= {}
-Pixie.Editor.Pixel ||= {}
+          canvas.height().times (y) ->
+            deferredColors[y] = canvas.getPixel(0, y).color()
 
-Pixie.Editor.Pixel.actions = (($) ->
-  return actions =
-    guides:
-      hotkeys: ['g']
-      menu: false
-      perform: (canvas) ->
-        canvas.toggleGuides()
-      undoable: false
-    undo:
-      hotkeys: ['ctrl+z', 'meta+z']
-      perform: (canvas) ->
-        canvas.undo()
-      undoable: false
-    redo:
-      hotkeys: ["ctrl+y", "meta+z"]
-      perform: (canvas) ->
-        canvas.redo()
-      undoable: false
-    clear:
-      perform: (canvas) ->
-        canvas.clear()
-    preview:
-      menu: false
-      perform: (canvas) ->
-        canvas.preview()
-      undoable: false
-    opacify:
-      hotkeys: ["+", "="]
-      menu: false
-      perform: (canvas) ->
-        canvas.opacity(canvas.opacity() + 0.1)
-      undoable: false
-    transparentize:
-      hotkeys: ["-"]
-      menu: false
-      perform: (canvas) ->
-        canvas.opacity(canvas.opacity() - 0.1)
-      undoable: false
-    left:
-      hotkeys: ["left"]
-      menu: false
-      perform: `function(canvas) {
-        var deferredColors = [];
+          canvas.eachPixel (pixel, x, y) ->
+            rightPixel = canvas.getPixel(x + 1, y)
 
-        canvas.height().times(function(y) {
-          deferredColors[y] = canvas.getPixel(0, y).color();
-        });
+            if rightPixel
+              pixel.color(rightPixel.color(), 'replace')
+            else
+              pixel.color(Color(), 'replace')
 
-        canvas.eachPixel(function(pixel, x, y) {
-          var rightPixel = canvas.getPixel(x + 1, y);
+          deferredColors.each (color, y) ->
+            canvas.getPixel(canvas.width() - 1, y).color(color)
 
-          if(rightPixel) {
-            pixel.color(rightPixel.color(), 'replace');
-          } else {
-            pixel.color(Color(), 'replace')
-          }
-        });
+      right:
+        hotkeys: ["right"]
+        menu: false
+        perform: (canvas) ->
+          width = canvas.width()
+          height = canvas.height()
 
-        $.each(deferredColors, function(y, color) {
-          canvas.getPixel(canvas.width() - 1, y).color(color);
-        });
-      }`
-    right:
-      hotkeys: ["right"]
-      menu: false
-      perform: `function(canvas) {
-        var width = canvas.width();
-        var height = canvas.height();
+          deferredColors = []
 
-        var deferredColors = [];
+          height.times (y) ->
+            deferredColors[y] = canvas.getPixel(width - 1, y).color()
 
-        height.times(function(y) {
-          deferredColors[y] = canvas.getPixel(width - 1, y).color();
-        });
+          x = width - 1
 
-        for(var x = width-1; x >= 0; x--) {
-          for(var y = 0; y < height; y++) {
-            var currentPixel = canvas.getPixel(x, y);
-            var leftPixel = canvas.getPixel(x - 1, y);
+          while x >= 0
+            y = 0
 
-            if(leftPixel) {
-              currentPixel.color(leftPixel.color(), 'replace');
-            } else {
-              currentPixel.color(Color(), 'replace');
-            }
-          }
-        }
+            while y < height
+              currentPixel = canvas.getPixel(x, y)
+              leftPixel = canvas.getPixel(x - 1, y)
+              if leftPixel
+                currentPixel.color leftPixel.color(), "replace"
+              else
+                currentPixel.color Color(), "replace"
+              y++
+            x--
 
-        $.each(deferredColors, function(y, color) {
-          canvas.getPixel(0, y).color(color);
-        });
-      }`
-    up:
-      hotkeys: ["up"]
-      menu: false
-      perform: `function(canvas) {
-        var deferredColors = [];
+          $.each deferredColors, (y, color) ->
+            canvas.getPixel(0, y).color color
 
-        canvas.width().times(function(x) {
-          deferredColors[x] = canvas.getPixel(x, 0).color();
-        });
+      up:
+        hotkeys: ["up"]
+        menu: false
+        perform: (canvas) ->
+          deferredColors = []
 
-        canvas.eachPixel(function(pixel, x, y) {
-          var lowerPixel = canvas.getPixel(x, y + 1);
+          canvas.width().times (x) ->
+            deferredColors[x] = canvas.getPixel(x, 0).color()
 
-          if(lowerPixel) {
-            pixel.color(lowerPixel.color(), 'replace');
-          } else {
-            pixel.color(Color(), 'replace');
-          }
-        });
+          canvas.eachPixel (pixel, x, y) ->
+            lowerPixel = canvas.getPixel(x, y + 1)
+            if lowerPixel
+              pixel.color lowerPixel.color(), "replace"
+            else
+              pixel.color Color(), "replace"
 
-        $.each(deferredColors, function(x, color) {
-          canvas.getPixel(x, canvas.height() - 1).color(color);
-        });
-      }`
-    down:
-      hotkeys: ["down"]
-      menu: false
-      perform: `function(canvas) {
-        var width = canvas.width();
-        var height = canvas.height();
+          $.each deferredColors, (x, color) ->
+            canvas.getPixel(x, canvas.height() - 1).color color
 
-        var deferredColors = [];
+      down:
+        hotkeys: ["down"]
+        menu: false
+        perform: (canvas) ->
+          width = canvas.width()
+          height = canvas.height()
 
-        canvas.width().times(function(x) {
-          deferredColors[x] = canvas.getPixel(x, height - 1).color();
-        });
+          deferredColors = []
 
-        for(var x = 0; x < width; x++) {
-          for(var y = height-1; y >= 0; y--) {
-            var currentPixel = canvas.getPixel(x, y);
-            var upperPixel = canvas.getPixel(x, y-1);
+          canvas.width().times (x) ->
+            deferredColors[x] = canvas.getPixel(x, height - 1).color()
 
-            if(upperPixel) {
-              currentPixel.color(upperPixel.color(), 'replace');
-            } else {
-              currentPixel.color(Color(), 'replace');
-            }
-          }
-        }
+          x = 0
 
-        $.each(deferredColors, function(x, color) {
-          canvas.getPixel(x, 0).color(color);
-        });
-      }`
-)(jQuery)
+          while x < width
+            y = height - 1
+
+            while y >= 0
+              currentPixel = canvas.getPixel(x, y)
+              upperPixel = canvas.getPixel(x, y - 1)
+              if upperPixel
+                currentPixel.color upperPixel.color(), "replace"
+              else
+                currentPixel.color Color(), "replace"
+              y--
+            x++
+
+          $.each deferredColors, (x, color) ->
+            canvas.getPixel(x, 0).color color
+  )(jQuery)
