@@ -35,7 +35,10 @@
     gradient = colorPicker.find '.slider'
     cursorOverlay = colorPicker.find '.cursor_overlay'
 
-    color = (hex) ->
+    # TODO remove from window
+    # not sure why I need to attach this to window
+    # to make it work
+    window.color = (hex) ->
       @hue = 0
       @saturation = 1
       @value = 0

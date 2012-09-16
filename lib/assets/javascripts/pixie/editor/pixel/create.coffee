@@ -237,8 +237,6 @@
 
           $.each action.hotkeys, (i, hotkey) ->
             #TODO Add action hotkey json data
-            console.log hotkey
-
             $(document).bind 'keydown', hotkey, (e) ->
               if currentComponent == self
                 e.preventDefault()

@@ -7,7 +7,6 @@
 #       # We need to bind hotkeys to document because non-input elements
 #       # can't detect key presses.
 #       $(document).bind 'keydown', hotkey, (event) ->
-#         console.log hotkey
 #         # Only process hotkeys when this editor is "focused"
 #         if currentComponent == self
 #           event.preventDefault()

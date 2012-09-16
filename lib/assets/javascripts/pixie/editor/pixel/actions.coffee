@@ -57,7 +57,6 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
           deferredColors.each (color, y) ->
             canvas.getPixel(canvas.width() - 1, y).color(color)
-
       right:
         hotkeys: ["right"]
         menu: false
@@ -87,7 +86,6 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
           $.each deferredColors, (y, color) ->
             canvas.getPixel(0, y).color color
-
       up:
         hotkeys: ["up"]
         menu: false
@@ -106,7 +104,6 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
           $.each deferredColors, (x, color) ->
             canvas.getPixel(x, canvas.height() - 1).color color
-
       down:
         hotkeys: ["down"]
         menu: false
