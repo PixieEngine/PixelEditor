@@ -67,22 +67,22 @@
 
     colorbar.append(colorPickerHolder, swatches)
 
-    # opacityVal = Div
-    #   class: "val"
-    #   text: 100
+    opacityVal = Div
+      class: "val"
+      text: 100
 
     # TODO replace this with numeric range input
-    # opacitySlider = self.find(".opacity").slider(
-    #   orientation: 'vertical'
-    #   value: 100
-    #   min: 5
-    #   max: 100
-    #   step: 5
-    #   slide: (event, ui) ->
-    #     opacityVal.text(ui.value)
-    # ).append(opacityVal)
+    opacitySlider = self.find(".opacity").slider(
+      orientation: 'vertical'
+      value: 100
+      min: 5
+      max: 100
+      step: 5
+      slide: (event, ui) ->
+        opacityVal.text(ui.value)
+    ).append(opacityVal)
 
-    # opacityVal.text(opacitySlider.slider('value'))
+    opacityVal.text(opacitySlider.slider('value'))
 
     preview = self.find(".preview").css
       width: I.width
@@ -402,10 +402,10 @@
       opacity: (newVal) ->
         if newVal?
           v = (newVal * 100).round().clamp(0, 100)
-          #opacitySlider.slider value: v
-          #opacityVal.text(v)
+          opacitySlider.slider value: v
+          opacityVal.text(v)
         else
-          #opacityVal.text() / 100
+          opacityVal.text() / 100
 
       toggleGuides: ->
         guides = not guides
