@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "editor_base", :git => "git://github.com/PixieEngine/EditorBase"
+gem "editor_base", :git => "git://github.com/PixieEngine/EditorBase" #:path => "../EditorBase"
 gem "pixie_sass", :git => "git://github.com/PixieEngine/pixie_sass"
 
 gem "middleman", "~>3.0.0"
