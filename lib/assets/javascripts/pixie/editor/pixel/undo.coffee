@@ -1,4 +1,4 @@
-#= require ../../../undo_stack
+#= require undo_stack
 
 (($) ->
   Pixie.Editor.Pixel.Undo = (I, self) ->
