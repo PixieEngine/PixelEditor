@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/PixieEngine/EditorBase
-  revision: 2ed583a123c1220fda4244b231a519ef0ca261d8
+  revision: 12e592a5ca7b771b1efb7dc6db689613bf08b032
   specs:
     editor_base (0.0.1)
       backbone-source

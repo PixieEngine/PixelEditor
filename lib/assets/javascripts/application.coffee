@@ -1,5 +1,5 @@
 #= require jquery.hotkeys
-#= require pixie/editor/jquery.take_class
+#= require jquery.take_class
 #= require jqcolor
 #= require underscore
 #= require backbone
