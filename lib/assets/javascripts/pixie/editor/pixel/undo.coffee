@@ -1,13 +1,12 @@
 #= require undo_stack
 
-(($) ->
-  Pixie.Editor.Pixel.Undo = (I, self) ->
-
+namespace "Pixie.Editor.Pixel", (Pixel) ->
+  Pixel.Undo = (I, self) ->
     undoStack = UndoStack()
     noUndo = 0
     lastClean = undefined
 
-    $.extend self,
+    Object.extend self,
       # TODO: Switch this to actions and command pattern
       addUndoData: (pixel, oldColor, newColor) ->
         unless noUndo
@@ -54,5 +53,3 @@
 
     self.bind "initialized", ->
       self.dirty(false)
-
-)(jQuery)

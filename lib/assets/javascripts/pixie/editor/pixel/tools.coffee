@@ -1,15 +1,13 @@
 # All the default editor tools for the pixel editor
 
-# Old school namespacing. Stuck with it until Sprockets supports exports
 namespace "Pixie.Editor.Pixel", (Pixel) ->
-
   # Import tools and actions from other files
   {
     config: {
       IMAGE_DIR
       DEBUG
     }
-  } = Pixie.Editor.Pixel
+  } = Pixel
 
   colorNeighbors = (color) ->
     @color(color)
