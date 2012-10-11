@@ -1,11 +1,8 @@
 # All the default editor tools for the pixel editor
 
 # Old school namespacing. Stuck with it until Sprockets supports exports
-window.Pixie ||= {}
-Pixie.Editor ||= {}
-Pixie.Editor.Pixel ||= {}
+namespace "Pixie.Editor.Pixel", (Pixel) ->
 
-Pixie.Editor.Pixel.tools = (($) ->
   # Import tools and actions from other files
   {
     config: {
@@ -15,8 +12,8 @@ Pixie.Editor.Pixel.tools = (($) ->
   } = Pixie.Editor.Pixel
 
   colorNeighbors = (color) ->
-    this.color(color)
-    $.each this.canvas.getNeighbors(this.x, this.y), (i, neighbor) ->
+    @color(color)
+    @canvas.getNeighbors(@x, @y).each (neighbor) ->
       neighbor?.color(color)
 
   erase = (pixel, opacity) ->
@@ -40,7 +37,7 @@ Pixie.Editor.Pixel.tools = (($) ->
 
       neighbors = canvas.getNeighbors(pixel.x, pixel.y)
 
-      $.each neighbors, (index, neighbor) ->
+      neighbors.each (neighbor) ->
         if neighbor?.color().equal(originalColor)
           neighbor.color(newColor)
           q.push(neighbor)
@@ -133,7 +130,7 @@ Pixie.Editor.Pixel.tools = (($) ->
       lastPosition = currentPosition
   )()
 
-  return tools =
+  Pixel.tools =
     pencil: pencilTool
 
     mirror_pencil:
@@ -172,4 +169,3 @@ Pixie.Editor.Pixel.tools = (($) ->
       hotkeys: ['f', '6']
       mousedown: floodFill
       mouseenter: floodFill
-)(jQuery)
