@@ -293,14 +293,10 @@
 
                 return false
 
-        img = Image
-          src: tool.icon
-          alt: alt
-          title: alt
-
         tool.elementSet = toolDiv = Div
+          attr:
+            "data-tool": name
           class: "tool"
-        .append(img)
         .bind("mousedown touchstart", (e) ->
           setMe()
 
@@ -495,7 +491,8 @@
 
       setTool: (tool) ->
         currentTool = tool
-        canvas.css('cursor', tool.cursor || "pointer")
+        canvas.attr
+          "data-tool": tool.name
         tool.elementSet.takeClass("active")
 
       toBase64: ->

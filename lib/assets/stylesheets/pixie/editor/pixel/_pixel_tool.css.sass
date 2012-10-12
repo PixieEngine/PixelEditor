@@ -1,0 +1,8 @@
+=pixel_tool($name)
+  &[data-tool=#{$name}]
+    background-image: asset-url("pixie/editor/pixel/#{$name}.png", image)
+
+=canvas_cursor($name, $x: 0, $y: 0)
+  &[data-tool=#{$name}]
+    $img: asset-url("pixie/editor/pixel/#{$name}.png", image)
+    cursor: $img $x $y, default

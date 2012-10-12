@@ -107,7 +107,6 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
     center = Point(0, 0)
     lastPosition = Point(0, 0)
 
-    cursor: "url(" + IMAGE_DIR + "pencil.png) 4 14, default"
     hotkeys: ['p', '1']
     mousedown: (e, color) ->
       currentPosition = Point(@x, @y)
@@ -128,11 +127,10 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
       lastPosition = currentPosition
   )()
 
-  Pixel.tools =
+  Pixel.tools = tools =
     pencil: pencilTool
 
     mirror_pencil:
-      cursor: "url(" + IMAGE_DIR + "mirror_pencil.png) 8 14, default"
       hotkeys: ['m', '2']
       mousedown: (e, color) ->
         mirrorCoordinate = @canvas.width() - @x - 1
@@ -143,27 +141,23 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
         @color(color)
         @canvas.getPixel(mirrorCoordinate, @y).color(color)
     brush:
-      cursor: "url(" + IMAGE_DIR + "brush.png) 4 14, default"
       hotkeys: ['b', '3']
       mousedown: (e, color) ->
         colorNeighbors.call(this, color)
       mouseenter: (e, color) ->
         colorNeighbors.call(this, color)
     dropper:
-      cursor: "url(" + IMAGE_DIR + "dropper.png) 13 13, default"
       hotkeys: ['i', '4']
       mousedown: (e) ->
         @canvas.color(@color())
         @canvas.setTool(tools.pencil) unless e.shiftKey
     eraser:
-      cursor: "url(" + IMAGE_DIR + "eraser.png) 4 11, default"
       hotkeys: ['e', '5']
       mousedown: (e, color, pixel) ->
         erase(pixel, color.a)
       mouseenter: (e, color, pixel) ->
         erase(pixel, color.a)
     fill:
-      cursor: "url(" + IMAGE_DIR + "fill.png) 12 13, default"
       hotkeys: ['f', '6']
       mousedown: floodFill
       mouseenter: floodFill
