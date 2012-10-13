@@ -24,9 +24,11 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
       resize:
         perform: (canvas) ->
           if newSize = prompt('New Dimensions', "#{canvas.width()}x#{canvas.height()}")
+            return alert "Please specify a width x height" unless (/\d+x\d+$/).test(newSize)
+
             [x, y] = newSize.split('x')
 
-            canvas.resize(x, y)
+            canvas.resize(parseInt(x), parseInt(y))
       preview:
         menu: false
         perform: (canvas) ->
