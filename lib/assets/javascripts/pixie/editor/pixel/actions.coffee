@@ -28,7 +28,7 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
             [x, y] = newSize.split('x')
 
-            canvas.resize(parseInt(x), parseInt(y))
+            canvas.resize(parseInt(x), parseInt(y), true)
       preview:
         menu: false
         perform: (canvas) ->

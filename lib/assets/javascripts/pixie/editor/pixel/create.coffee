@@ -464,14 +464,15 @@
         I.width = newWidth
         I.height = newHeight
 
-        pixelColors = []
+        if preserveImage
+          pixelColors = []
 
-        pixels.each (col, colIndex) ->
-          col.each (row, rowIndex) ->
-            pixelColors[colIndex] ||= []
+          pixels.each (col, colIndex) ->
+            col.each (row, rowIndex) ->
+              pixelColors[colIndex] ||= []
 
-            # pull out colors if they are visible
-            pixelColors[colIndex][rowIndex] = row if row.color().a > 0
+              # pull out colors if they are visible
+              pixelColors[colIndex][rowIndex] = row if row.color().a > 0
 
         pixels = pixels.slice(0, newHeight)
 
@@ -492,11 +493,12 @@
         # the new pixels array can be bigger or
         # smaller than the old one. Make sure indexing
         # into the array is defined
-        pixels.each (col, colIndex) ->
-          col.each (row, rowIndex) ->
-            if (col = pixelColors[colIndex])?
-              if (pixel = col[rowIndex])?
-                row.color(pixel.color())
+        if preserveImage
+          pixels.each (col, colIndex) ->
+            col.each (row, rowIndex) ->
+              if (col = pixelColors[colIndex])?
+                if (pixel = col[rowIndex])?
+                  row.color(pixel.color())
 
         canvas.css
           width: I.width * I.pixelWidth + 2
