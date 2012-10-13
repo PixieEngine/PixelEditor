@@ -21,6 +21,12 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
       clear:
         perform: (canvas) ->
           canvas.clear()
+      resize:
+        perform: (canvas) ->
+          if newSize = prompt('New Dimensions', "#{canvas.width()}x#{canvas.height()}")
+            [x, y] = newSize.split('x')
+
+            canvas.resize(x, y)
       preview:
         menu: false
         perform: (canvas) ->

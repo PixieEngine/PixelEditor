@@ -460,9 +460,18 @@
 
           setTimeout(runStep, delay)
 
-      resize: (newWidth, newHeight) ->
+      resize: (newWidth, newHeight, preserveImage=false) ->
         I.width = newWidth
         I.height = newHeight
+
+        pixelColors = []
+
+        pixels.each (col, colIndex) ->
+          col.each (row, rowIndex) ->
+            pixelColors[colIndex] ||= []
+
+            # pull out colors if they are visible
+            pixelColors[colIndex][rowIndex] = row if row.color().a > 0
 
         pixels = pixels.slice(0, newHeight)
 
@@ -479,6 +488,15 @@
 
         layers.each (layer) ->
           layer.resize()
+
+        # the new pixels array can be bigger or
+        # smaller than the old one. Make sure indexing
+        # into the array is defined
+        pixels.each (col, colIndex) ->
+          col.each (row, rowIndex) ->
+            if (col = pixelColors[colIndex])?
+              if (pixel = col[rowIndex])?
+                row.color(pixel.color())
 
         canvas.css
           width: I.width * I.pixelWidth + 2
