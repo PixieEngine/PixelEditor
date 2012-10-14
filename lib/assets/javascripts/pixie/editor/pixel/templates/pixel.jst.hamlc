@@ -11,4 +11,6 @@
         .swatches
       %hr
       .preview
-      .opacity
+      %label.opacityLabel
+        %h4 Opacity
+        %input.opacity(type='number' min='0' max='100' step='5' value='100')

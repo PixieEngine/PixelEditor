@@ -67,23 +67,6 @@
 
     colorbar.append(colorPickerHolder, swatches)
 
-    opacityVal = Div
-      class: "val"
-      text: 100
-
-    # TODO replace this with numeric range input
-    opacitySlider = self.find(".opacity").slider(
-      orientation: 'vertical'
-      value: 100
-      min: 5
-      max: 100
-      step: 5
-      slide: (event, ui) ->
-        opacityVal.text(ui.value)
-    ).append(opacityVal)
-
-    opacityVal.text(opacitySlider.slider('value'))
-
     preview = self.find(".preview").css
       width: I.width
       height: I.height
@@ -396,12 +379,13 @@
         return undefined
 
       opacity: (newVal) ->
+        opacityEl = self.find('.opacity')
+
         if newVal?
           v = (newVal * 100).round().clamp(0, 100)
-          opacitySlider.slider value: v
-          opacityVal.text(v)
+          opacityEl.val(v)
         else
-          opacityVal.text() / 100
+          parseInt(opacityEl.val()) / 100
 
       toggleGuides: ->
         guides = not guides
