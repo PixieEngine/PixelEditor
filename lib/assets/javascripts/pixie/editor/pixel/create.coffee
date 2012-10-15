@@ -465,7 +465,7 @@
 
         pixels.each (col, colIndex) ->
           col.each (row, rowIndex) ->
-            row.color(pixelsCopy[colIndex][rowIndex].color())
+            row.color(pixelsCopy[colIndex][rowIndex].color(), 'replace')
 
       zoomIn: ->
         self.zoom(2)
@@ -510,7 +510,7 @@
             col.each (row, rowIndex) ->
               if (col = pixelColors[colIndex])?
                 if (pixel = col[rowIndex])?
-                  row.color(pixel.color())
+                  row.color(pixel.color(), 'replace')
 
         canvas.css
           width: I.width * I.pixelWidth + 2
