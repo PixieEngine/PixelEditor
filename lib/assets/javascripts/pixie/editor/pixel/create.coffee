@@ -40,6 +40,7 @@
       leadingHash: false
 
   Pixie.Editor.Pixel.create = (I={}) ->
+    I.zoom = 1
     I.width = parseInt(I.width || 8, 10)
     I.height = parseInt(I.height || 8, 10)
     initializer = I.initializer
@@ -444,6 +445,34 @@
 
           setTimeout(runStep, delay)
 
+      zoom: (amount) ->
+        pixelsCopy = pixels.copy()
+
+        previousZoom = I.zoom
+
+        I.zoom = (I.zoom * amount).clamp(1/16, 16)
+
+        return if I.zoom is previousZoom
+
+        I.pixelHeight = I.pixelHeight * amount
+        I.pixelWidth = I.pixelWidth * amount
+
+        canvas = self.find(".canvas").css
+          width: I.width * I.pixelWidth + 2
+          height: I.height * I.pixelHeight + 2
+
+        layers.invoke('resize')
+
+        pixels.each (col, colIndex) ->
+          col.each (row, rowIndex) ->
+            row.color(pixelsCopy[colIndex][rowIndex].color())
+
+      zoomIn: ->
+        self.zoom(2)
+
+      zoomOut: ->
+        self.zoom(0.5)
+
       resize: (newWidth, newHeight, preserveImage=false) ->
         I.width = newWidth
         I.height = newHeight
@@ -471,8 +500,7 @@
             changed: pixelChanged
           ) while row.length < newWidth
 
-        layers.each (layer) ->
-          layer.resize()
+        layers.invoke('resize')
 
         # the new pixels array can be bigger or
         # smaller than the old one. Make sure indexing

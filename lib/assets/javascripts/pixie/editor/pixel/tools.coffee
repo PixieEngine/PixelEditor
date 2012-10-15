@@ -161,3 +161,11 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
       hotkeys: ['f', '6']
       mousedown: floodFill
       mouseenter: floodFill
+    zoom_in:
+      hotkeys: ['z', '7']
+      mousedown: ->
+        @canvas.zoomIn()
+    zoom_out:
+      hotkeys: ['shift+z', '8']
+      mousedown: ->
+        @canvas.zoomOut()
