@@ -55,7 +55,7 @@
       width: I.width * I.pixelWidth + 2
       height: I.height * I.pixelHeight + 2
 
-    cursorInfo = self.find(".cursor_info")
+    cursorPosition = self.find(".cursor_position")
 
     actionbar = self.find(".actions")
 
@@ -140,7 +140,7 @@
       row = Math.floor(local.y / I.pixelHeight)
       col = Math.floor(local.x / I.pixelWidth)
 
-      cursorInfo.text("x: #{col}, y: #{row}")
+      cursorPosition.text("x: #{col} y: #{row}")
 
       pixel = self.getPixel(col, row)
       eventType = undefined
