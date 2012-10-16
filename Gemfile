@@ -7,7 +7,6 @@ gem "middleman", "~>3.0.0"
 gem 'coffee-filter'
 gem "haml_coffee_assets", :git => 'git://github.com/dzello/haml_coffee_assets.git'
 gem 'oj'
-gem "bootstrap-sass"
 
 group :test, :development do
   gem 'jasmine'
