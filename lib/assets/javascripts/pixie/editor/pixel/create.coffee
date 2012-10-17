@@ -231,14 +231,12 @@
                 return false
 
         if action.menu != false
-          iconImg = Image
-            src: action.icon || IMAGE_DIR + name + '.png'
-
           actionButton = Button
+            attr:
+              "data-tool": name
             class: 'tool btn'
             text: name.capitalize()
             title: titleText
-          .prepend(iconImg)
           .bind "mousedown touchstart", (e) ->
             doIt() unless $(this).attr('disabled')
 

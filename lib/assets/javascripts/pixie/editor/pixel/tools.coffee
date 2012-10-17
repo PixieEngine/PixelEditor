@@ -103,7 +103,7 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
       canvas.getPixel(x0, y0).color(color)
 
-  pencilTool = ( ->
+  pencilTool = do ->
     center = Point(0, 0)
     lastPosition = Point(0, 0)
 
@@ -125,7 +125,6 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
 
       line(@canvas, color, lastPosition, currentPosition)
       lastPosition = currentPosition
-  )()
 
   Pixel.tools = tools =
     pencil: pencilTool
