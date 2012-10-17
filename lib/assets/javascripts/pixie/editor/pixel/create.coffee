@@ -232,12 +232,13 @@
 
         if action.menu != false
           actionButton = Button
-            attr:
-              "data-tool": name
             class: 'tool btn'
             text: name.capitalize()
             title: titleText
-          .bind "mousedown touchstart", (e) ->
+          .prepend($("<icon>",
+            attr:
+              "data-tool": name
+          )).bind "mousedown touchstart", (e) ->
             doIt() unless $(this).attr('disabled')
 
             track(e.type, action.name)

@@ -189,13 +189,16 @@ header.navbar-fixed-top
     margin-left: 20px
 
     button
-      +pixel-tool(undo)
-      +pixel-tool(redo)
-      +pixel-tool(clear)
-      +pixel-tool(resize)
+      icon
+        display: inline-block
+        margin-right: 4px
+        height: 16px
+        width: 16px
 
-      background-repeat: no-repeat
-      padding-left: 20px
+        +pixel-tool(undo)
+        +pixel-tool(redo)
+        +pixel-tool(clear)
+        +pixel-tool(resize)
 
   .toggle_holder
     display: block
