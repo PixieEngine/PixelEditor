@@ -1,24 +1,31 @@
-# .
+# Pixie Pixel Editor
 
-TODO: Write a gem description
+Our pixel editor enables you to quickly and easily create simple pixel art online.
+
+Download your finished work to your computer or share it with your friends.
+
+This simple and fun editor is easy to use, especially for beginners.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem '.'
+    gem 'pixel_editor', :git => 'git://github.com/PixieEngine/PixelEditor.git'
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install .
-
 ## Usage
 
-TODO: Write usage instructions here
+Include the scripts:
+
+    #= require pixie/editor/pixel/create
+
+In the page where you want to create the pixel editor:
+
+    pixie = Pixie.Editor.Pixel.create()
+    $("body").append(pixie)
 
 ## Contributing
 
