@@ -252,6 +252,12 @@
           class: 'swatch'
           style: "background-color: #{color.toString()}"
 
+      setPalette: (colors) ->
+        swatches.empty()
+
+        colors.each (color) ->
+          self.addSwatch(Color(color))
+
       addTool: (tool) ->
         name = tool.name
         alt = name.capitalize()
@@ -559,8 +565,7 @@
       action.name = key
       self.addAction(action)
 
-    $.each palette, (i, color) ->
-      self.addSwatch(Color(color))
+    self.setPalette(palette)
 
     self.setTool(tools.pencil)
 
