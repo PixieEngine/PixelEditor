@@ -1,13 +1,6 @@
 # All the default editor tools for the pixel editor
 
 namespace "Pixie.Editor.Pixel", (Pixel) ->
-  # Import tools and actions from other files
-  {
-    config: {
-      IMAGE_DIR
-      DEBUG
-    }
-  } = Pixel
 
   colorNeighbors = (color) ->
     @color(color)
