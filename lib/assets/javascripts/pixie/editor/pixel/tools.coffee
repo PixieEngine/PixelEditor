@@ -1,7 +1,6 @@
 # All the default editor tools for the pixel editor
 
 namespace "Pixie.Editor.Pixel", (Pixel) ->
-
   colorNeighbors = (color) ->
     @color(color)
     @canvas.getNeighbors(@x, @y).each (neighbor) ->
@@ -11,7 +10,7 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
     inverseOpacity = (1 - opacity)
     pixelColor = pixel.color()
 
-    pixel.color(Color(pixelColor.toString(), pixelColor.a * inverseOpacity), "replace")
+    pixel.color(Color(pixelColor.r, pixelColor.g, pixelColor.b, pixelColor.a * inverseOpacity), "replace")
 
   floodFill = (e, newColor, pixel) ->
     originalColor = this.color()

@@ -119,7 +119,7 @@
       target = $(e.target)
 
       if target.is('.swatch')
-        color = Color(target.css('backgroundColor'))
+        color = Color.parseFromRGB(target.css('backgroundColor'))
         self.color(color, !primaryButton(e))
 
         track(e.type, color.toString())
@@ -127,6 +127,12 @@
     pixels = []
 
     lastPixel = undefined
+
+    fixEvent = (event, pixel) ->
+      if (event.type == "mousedown") || (event.type == "touchstart")
+        eventType = "mousedown"
+      else if pixel && pixel != lastPixel && (event.type == "mousemove" || event.type == "touchmove")
+        eventType = "mouseenter"
 
     handleEvent = (event, element) ->
       opacity = self.opacity()
@@ -143,15 +149,12 @@
       cursorPosition.text("x: #{col} y: #{row}")
 
       pixel = self.getPixel(col, row)
-      eventType = undefined
 
-      if (event.type == "mousedown") || (event.type == "touchstart")
-        eventType = "mousedown"
-      else if pixel && pixel != lastPixel && (event.type == "mousemove" || event.type == "touchmove")
-        eventType = "mouseenter"
+      eventType = fixEvent(event, pixel)
 
       if pixel && active && currentTool && currentTool[eventType]
-        color = self.color().toString()
+        color = self.color()
+        color.a = opacity
 
         # Call the tool with the appropriate local context
         currentTool[eventType].call({
@@ -159,7 +162,7 @@
           x: pixel.x
           y: pixel.y
           color: pixel.color
-        }, event, Color(color, opacity), pixel)
+        }, event, color, pixel)
 
       lastPixel = pixel
 
@@ -256,7 +259,7 @@
         swatches.empty()
 
         colors.each (color) ->
-          self.addSwatch(Color(color))
+          self.addSwatch(Color(color[0], color[1], color[2], color[3]))
 
       addTool: (tool) ->
         name = tool.name
@@ -300,27 +303,27 @@
       color: (color, alternate) ->
         if (arguments.length == 0 || color == false)
           if mode == "S"
-            return Color(secondaryColorPicker.css('backgroundColor'))
+            return Color.parseFromRGB(secondaryColorPicker.css('backgroundColor'))
           else
-            return Color(primaryColorPicker.css('backgroundColor'))
+            return Color.parseFromRGB(primaryColorPicker.css('backgroundColor'))
         else if color == true
           if mode == "S"
-            return Color(primaryColorPicker.css('backgroundColor'))
+            return Color.parseFromRGB(primaryColorPicker.css('backgroundColor'))
           else
-            return Color(secondaryColorPicker.css('backgroundColor'))
+            return Color.parseFromRGB(secondaryColorPicker.css('backgroundColor'))
 
         if (mode == "S") ^ alternate
-          secondaryColorPicker.val(color.toHex().substr(1))
+          secondaryColorPicker.val(color.toHex(false))
           secondaryColorPicker[0].onblur()
         else
-          primaryColorPicker.val(color.toHex().substr(1))
+          primaryColorPicker.val(color.toHex(false))
           primaryColorPicker[0].onblur()
 
         return self
 
       clear: ->
         self.eachPixel (pixel) ->
-          pixel.color(Color(0, 0, 0, 0).toString(), "replace")
+          pixel.color(Color(0, 0, 0, 0), "replace")
 
       displayInitialState: (stateData) ->
         self.withoutUndo ->
@@ -338,7 +341,11 @@
         I.height.times (row) ->
           I.width.times (col) ->
             pixel = pixels[row][col]
-            fn.call(pixel, pixel, col, row)
+
+            # don't block
+            setTimeout ->
+              fn.call(pixel, pixel, col, row)
+            , 1
 
         return self
 
@@ -348,7 +355,7 @@
       fromDataURL: (dataURL) ->
         context = document.createElement('canvas').getContext('2d')
 
-        maxDimension = 256
+        maxDimension = 1024
 
         Image
           load: ->

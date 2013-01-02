@@ -17,3 +17,4 @@ namespace "Pixie.Editor.Pixel", (Pixel) ->
       resize: ->
         layerElement.width = layerWidth()
         layerElement.height = layerHeight()
+
