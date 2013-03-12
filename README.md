@@ -22,6 +22,11 @@ Include the scripts:
 
     #= require pixie/editor/pixel/create
 
+Add the stylsheets:
+
+    //= require pixie/editor/pixel/main
+    //= require pixie/editor/pixel/jqcolor
+
 In the page where you want to create the pixel editor:
 
     pixie = Pixie.Editor.Pixel.create()
