@@ -2,6 +2,7 @@
 #= require jqcolor
 #= require color
 #= require jquery.take_class
+#= require jquery.hotkeys
 
 #= require ../../color_util
 #= require_tree .
