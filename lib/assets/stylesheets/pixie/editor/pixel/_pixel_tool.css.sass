@@ -1,8 +1,8 @@
 =pixel_tool($name)
   &[data-tool=#{$name}]
-    background-image: asset-url("pixie/editor/pixel/#{$name}.png", image)
+    background-image: inline-image("pixie/editor/pixel/#{$name}.png", "image/png")
 
 =canvas_cursor($name, $x: 0, $y: 0)
   &[data-tool=#{$name}]
-    $img: asset-url("pixie/editor/pixel/#{$name}.png", image)
+    $img: inline-image("pixie/editor/pixel/#{$name}.png", "image/png")
     cursor: $img $x $y, default
